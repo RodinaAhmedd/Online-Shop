@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login to Your Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 15px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 35px;
+            font-size: 14px;
+        }
+
+        .subtitle a {
+            color: #ff3838;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .subtitle a:hover {
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #ff3838;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 56, 56, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+            gap: 6px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            margin: 0;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .forgot-password {
+            color: #ff3838;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ff3838;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .login-btn:hover {
+            background: #e63030;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 56, 56, 0.3);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #666;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+            z-index: 1;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .social-section {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .social-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #ff3838;
+            border-radius: 12px;
+            background: #ff3838;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-bottom: 8px;
+        }
+
+        .social-btn:hover {
+            background:#810d0d;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 56, 56, 0.2);
+        }
+
+        .social-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .social-name {
+            color: #ff3838;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .social-name:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            color: #ff3838;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .input-container.error input {
+            border-color: #ff3838;
+            background: #fff5f5;
+        }
+
+        .input-container.error .error-message {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .form-options {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+
+            .social-section {
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Login to your account</h1>
+        
+        <p class="subtitle">
+            Don't have an account? <a href="signf.html" id="signupLink">Sign Up!</a>
+        </p>
+
+        <form id="loginForm" novalidate>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <div class="input-container">
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    <div class="error-message"></div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-container">
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    <div class="error-message"></div>
+                </div>
+            </div>
+
+            <div class="form-options">
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe">
+                    Remember me
+                </label>
+                <a href="forgetpass.html" class="forgot-password">Forget Password?</a>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                Login
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>Or sign in with</span>
+        </div>
+
+        <div class="social-section">
+            <div class="social-item">
+                <button class="social-btn" id="googleBtn" type="button">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                        <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                        <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                        <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                </button>
+                <a href="#" class="social-name">Google</a>
+            </div>
+
+            <div class="social-item">
+                <button class="social-btn" id="microsoftBtn" type="button">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M11.4 11.4H.6V.6h10.8v10.8z"/>
+                        <path fill="currentColor" d="M23.4 11.4H12.6V.6h10.8v10.8z"/>
+                        <path fill="currentColor" d="M11.4 23.4H.6V12.6h10.8v10.8z"/>
+                        <path fill="currentColor" d="M23.4 23.4H12.6V12.6h10.8v10.8z"/>
+                    </svg>
+                </button>
+                <a href="#" class="social-name">Microsoft</a>
+            </div>
+
+            <div class="social-item">
+                <button class="social-btn" id="facebookBtn" type="button">
+                    <svg viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                </button>
+                <a href="#" class="social-name">Facebook</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class LoginValidator {
+            constructor() {
+                this.form = document.getElementById('loginForm');
+                this.loginBtn = document.getElementById('loginBtn');
+                
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                this.form.querySelectorAll('input').forEach(field => {
+                    field.addEventListener('blur', () => this.validateField(field));
+                    field.addEventListener('input', () => {
+                        if (field.closest('.input-container').classList.contains('error')) {
+                            this.validateField(field);
+                        }
+                    });
+                });
+
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+                document.getElementById('googleBtn').addEventListener('click', () => {
+                    alert('Google login would be implemented here');
+                });
+                
+                document.getElementById('microsoftBtn').addEventListener('click', () => {
+                    alert('Microsoft login would be implemented here');
+                });
+                
+                document.getElementById('facebookBtn').addEventListener('click', () => {
+                    alert('Facebook login would be implemented here');
+                });
+            }
+
+            validateField(field) {
+                const container = field.closest('.input-container');
+                const errorMsg = container.querySelector('.error-message');
+                let isValid = true;
+                let message = '';
+
+                container.classList.remove('error');
+
+                if (field.hasAttribute('required') && !field.value.trim()) {
+                    isValid = false;
+                    message = 'This field is required';
+                }
+
+                if (field.type === 'email' && field.value && !this.isValidEmail(field.value)) {
+                    isValid = false;
+                    message = 'Please enter a valid email address';
+                }
+
+                if (field.type === 'password' && field.value && field.value.length < 8) {
+                    isValid = false;
+                    message = 'Password must be at least 8 characters';
+                }
+
+                if (!isValid) {
+                    container.classList.add('error');
+                }
+
+                errorMsg.textContent = message;
+                return isValid;
+            }
+
+            isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+                
+                const fields = this.form.querySelectorAll('input[required]');
+                let isFormValid = true;
+
+                fields.forEach(field => {
+                    if (!this.validateField(field)) {
+                        isFormValid = false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    const firstError = this.form.querySelector('.input-container.error input');
+                    if (firstError) {
+                        firstError.focus();
+                    }
+                    return;
+                }
+
+                // نجيب القيم هنا لما المستخدم يضغط submit
+                const enteredEmail = document.getElementById("email").value.trim();
+                const enteredPassword = document.getElementById("password").value;
+
+                // نجيب البيانات المحفوظة من localStorage
+                const savedEmail = localStorage.getItem("userEmail");
+                const savedPassword = localStorage.getItem("userPassword");
+
+                // للتجربة - هنشوف كل البيانات المحفوظة في localStorage
+                console.log('=== Login Debug Info ===');
+                console.log('Entered Email:', enteredEmail);
+                console.log('Entered Password:', enteredPassword);
+                console.log('Saved Email:', savedEmail);
+                console.log('Saved Password:', savedPassword);
+                console.log('All localStorage keys:', Object.keys(localStorage));
+                console.log('All localStorage data:', {...localStorage});
+                
+                // هنتحقق من البيانات مع إزالة أي مسافات زيادة
+                const emailMatch = enteredEmail.toLowerCase() === (savedEmail || '').toLowerCase().trim();
+                const passwordMatch = enteredPassword === savedPassword;
+                
+                console.log('Email match:', emailMatch);
+                console.log('Password match:', passwordMatch);
+
+                // نتحقق من البيانات
+                if (emailMatch && passwordMatch && savedEmail && savedPassword) {
+                    console.log('Login successful! Redirecting...');
+                    this.loginBtn.disabled = true;
+                    this.loginBtn.textContent = 'Logging in...';
+
+                    setTimeout(() => {
+                        window.location.href = 'shop.html';
+                    }, 1500);
+                } else {
+                    // لو مفيش بيانات محفوظة، نعرض رسالة مختلفة
+                    if (!savedEmail || !savedPassword) {
+                        alert("No account found. Please sign up first!\n\nSaved Email: " + savedEmail + "\nSaved Password: " + savedPassword);
+                    } else {
+                        alert("Invalid email or password. Please try again.\n\nEntered: " + enteredEmail + " / " + enteredPassword + "\nSaved: " + savedEmail + " / " + savedPassword);
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new LoginValidator();
+        });
+    </script>
+</body>
+</html>

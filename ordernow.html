@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Order Now Section</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --brand:#3b82f6;
+      --brand-2:#2563eb;
+      --ring:#bfdbfe;
+      --danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:"Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;background:var(--bg);color:var(--ink);}
+    section.order{max-width:1000px;margin-inline:auto;padding:32px;}
+    .heading{font-size:clamp(24px, 2.2vw, 36px);text-align:center;margin:0 0 20px;font-weight:700}
+    .sub{color:var(--muted);text-align:center;margin:0 0 28px}
+
+    .grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+    .card{background:var(--card);border-radius:20px;box-shadow:0 10px 24px rgba(15,23,42,.06);padding:20px}
+    form{display:grid;gap:14px}
+
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:640px){.row{grid-template-columns:1fr}}
+
+    label{display:block;font-weight:600;margin:0 0 6px}
+    .hint{font-size:12px;color:var(--muted)}
+
+    input, select, textarea{width:100%;padding:12px 14px;border:1px solid #e5e7eb;border-radius:12px;background:#fff;outline:none;transition:.2s}
+    input:focus, select:focus, textarea:focus{box-shadow:0 0 0 4px var(--ring);border-color:var(--brand)}
+    
+    textarea{min-height:90px;resize:vertical}
+
+.inputBox {
+      margin-bottom: 15px;
+    }
+    .inputBox span {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .inputBox input, .inputBox select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .actions{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:flex-end;margin-top:8px}
+    button{border:0;border-radius:14px;padding:12px 18px;font-weight:700;cursor:pointer}
+    .btn-primary{background:var(--brand);color:#fff}
+    .btn-primary:hover{background:var(--brand-2)}
+    .btn-ghost{background:transparent}
+
+    .error{color:var(--danger);font-size:12px;margin-top:6px;display:none}
+
+    .summary{position:sticky;top:16px}
+    .summary h3{margin:0 0 10px}
+    .line{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #e5e7eb}
+    .total{font-size:20px;font-weight:800}
+    .muted{color:var(--muted)}
+
+    .success{display:none;background:#ecfdf5;border:1px solid #bbf7d0;color:#065f46;border-radius:12px;padding:12px 14px;margin-top:10px}
+     /***************************************************/
+  .items-box{
+      margin: 0.1rem 0;
+  }
+  .item-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr auto;
+      gap: 1rem;
+      margin-bottom: 0.1rem;
+      align-items: end;
+    }
+    .item-row select, .item-row input {
+      width: 100%;
+    }
+    .item-row button {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      height: fit-content;
+    }
+    .item-row button:hover {
+      background: #bb2d3b;
+    }
+    .add-btn {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 0.5rem;
+    }
+    .add-btn:hover {
+      background: #218838;
+    }
+    
+    .item-column, .qty-column {
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .item-column label, .qty-column label {
+      margin-bottom: 6px;
+    }
+  
+  </style>
+</head>
+<body>
+
+  <section class="order" id="order">
+    <h1 class="heading">Order Now</h1>
+    <p class="sub">Fill in your details and we will confirm your order by phone.</p>
+
+    <div class="grid">
+      <!-- Order Form -->
+      <div class="card">
+        <form id="orderForm" novalidate>
+          <div class="row">
+            <div>
+              <label for="name">Full Name</label>
+              <input id="name" name="name" autocomplete="name" required placeholder="e.g. John Doe" />
+              <div class="error" data-error-for="name">Please enter your name.</div>
+            </div>
+            <div>
+              <label for="phone">Phone Number</label>
+              <input id="phone" name="phone" inputmode="tel" placeholder="01xxxxxxxxx" required />
+              <div class="error" data-error-for="phone">Enter a valid phone number (11 digits).</div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="address">Address</label>
+              <input id="address" name="address" placeholder="Street - Area - City" required />
+              <div class="error" data-error-for="address">Address is required for delivery.</div>
+            </div>
+            <div>
+              <label for="timeslot">Delivery Time</label>
+              <select id="timeslot" name="timeslot" required>
+                <option value="" disabled selected>Select a time</option>
+                <option value="12-3">12 PM - 3 PM</option>
+                <option value="3-6">3 PM - 6 PM</option>
+                <option value="6-9">6 PM - 9 PM</option>
+              </select>
+              <div class="error" data-error-for="timeslot">Please select a delivery time.</div>
+            </div>
+          </div>
+<!----------------------------------------------------------------------------------------------->
+            <div class="items-box" id="items-box">
+              <div class="item-row">
+                <div class="item-column">
+                  <label>Items</label>
+                  <select id="item" name="item[]">
+                    <option value="" disabled selected>Select an item</option>
+                    <option value="burger" data-price="20">Cheese Burger — 20$</option>
+                    <option value="pizza" data-price="30">Salami Pizza — 30$</option>
+                    <option value="Apetizers" data-price="7">Coleslaw Salad — 7$</option>
+                    <option value="juice" data-price="10">Watermelon Juice — 10$</option>
+                  </select>
+                  <div class="error" data-error-for="item">Please select an item.</div>
+                </div>
+                
+                <div class="qty-column">
+                  <label for="qty">Quantity</label>
+                  <input id="qty" name="qty[]" type="number" placeholder="Qty" min="1" value="1"/>
+                  <div class="error" data-error-for="qty">Quantity must be 1 or more.</div>
+                </div>
+                
+                <button type="button" class="remove-btn">Remove</button>
+              </div>
+            </div>
+          <button type="button" class="add-btn" id="addItem">+ Add Another Item</button>
+
+
+<!------------------------------------------------------------------------------------------------->
+ <div class="inputBox">
+      <span>Payment Method</span>
+      <select name="payment" required>
+        <option value="">-- Select Payment --</option>
+        <option value="cash">Cash on Delivery</option>
+        <option value="card">Credit Card</option>
+      </select>
+    </div>
+
+
+          <div>
+            <label for="notes">Order Notes</label>
+            <textarea id="notes" name="notes" placeholder="No onions, extra sauce... (optional)"></textarea>
+          </div>
+
+          <div class="actions">
+            <button type="reset" class="btn-ghost" id="resetBtn">Cancel</button>
+            <button type="submit" class="btn-primary">Confirm Order</button>
+          </div>
+          <div class="success" id="successBox">Your order has been placed successfully! We will contact you shortly to confirm.</div>
+        </form>
+      </div>
+
+      <!-- Summary -->
+      <aside class="card summary" aria-live="polite">
+        <h3>Order Summary</h3>
+        <div id="orderItems">
+          <div class="line"><span class="muted">No items selected</span></div>
+        </div>
+        <div class="line"><span class="muted">Subtotal</span><strong id="subtotal">$0</strong></div>
+        <div class="line"><span class="muted">Delivery</span><strong id="sumShip">$20</strong></div>
+        <div class="line total"><span>Total</span><span id="sumTotal">$20</span></div>
+        <div id="orderNotesDisplay" style="display: none;">
+          <hr style="margin: 10px 0; border: 1px dashed #e5e7eb;">
+          <div><strong>Order Notes:</strong></div>
+          <div id="notesText" style="color: var(--muted); font-size: 14px; margin-top: 5px;"></div>
+        </div>
+        <p class="hint">* Delivery fee is set to $20 by default.</p>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const USD = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+
+    const form = document.getElementById('orderForm');
+    const itemSel = document.getElementById('item');
+    const qtyInp = document.getElementById('qty');
+    const notesInput = document.getElementById('notes');
+    const phoneInp = document.getElementById('phone');
+    const successBox = document.getElementById('successBox');
+   
+    const itemsBox = document.getElementById('items-box');
+    const addItemBtn = document.getElementById('addItem');
+    const orderItemsDiv = document.getElementById('orderItems');
+    const subtotalEl = document.getElementById('subtotal');
+    const sumShip = document.getElementById('sumShip');
+    const sumTotal= document.getElementById('sumTotal');
+    const orderNotesDisplay = document.getElementById('orderNotesDisplay');
+    const notesText = document.getElementById('notesText');
+
+    const DELIVERY = 20;
+     
+    function updateTotal() {
+      let subtotal = 0;
+      const orderItems = [];
+      
+      document.querySelectorAll('.item-row').forEach(row => {
+        const select = row.querySelector('select');
+        const selectedOption = select.options[select.selectedIndex];
+        const qtyInput = row.querySelector('input');
+        
+        if(selectedOption && selectedOption.value && selectedOption.dataset.price) {
+          const itemName = selectedOption.text.split('—')[0].trim();
+          const price = parseFloat(selectedOption.dataset.price);
+          const qty = parseInt(qtyInput.value) || 1;
+          const itemTotal = price * qty;
+          
+          subtotal += itemTotal;
+          orderItems.push({
+            name: itemName,
+            price: price,
+            qty: qty,
+            total: itemTotal
+          });
+        }
+      });
+      
+      updateSummaryDisplay(orderItems, subtotal);
+      updateNotesDisplay();
+    }
+    
+    function updateSummaryDisplay(items, subtotal) {
+      // Update order items display
+      if(items.length === 0) {
+        orderItemsDiv.innerHTML = '<div class="line"><span class="muted">No items selected</span></div>';
+      } else {
+        let itemsHTML = '';
+        items.forEach(item => {
+          itemsHTML += `
+            <div class="line">
+              <span>${item.name} × ${item.qty}</span>
+              <strong>${USD.format(item.total)}</strong>
+            </div>
+          `;
+        });
+        orderItemsDiv.innerHTML = itemsHTML;
+      }
+      
+      // Update totals
+      const total = subtotal + DELIVERY;
+      subtotalEl.textContent = USD.format(subtotal);
+      sumShip.textContent = USD.format(DELIVERY);
+      sumTotal.textContent = USD.format(total);
+    }
+    
+    function updateNotesDisplay() {
+      const notes = notesInput.value.trim();
+      if(notes) {
+        notesText.textContent = notes;
+        orderNotesDisplay.style.display = 'block';
+      } else {
+        orderNotesDisplay.style.display = 'none';
+      }
+    }
+     
+    function addRow() {
+      const row = document.createElement('div');
+      row.classList.add('item-row');
+      row.innerHTML = `
+        <div class="item-column">
+          <label>Items</label>
+          <select name="item[]">
+            <option value="" disabled selected>Select an item</option>
+            <option value="burger" data-price="18">Cheese Burger — 18$</option>
+            <option value="pizza" data-price="21">Margherita Pizza — 21$</option>
+            <option value="pasta" data-price="16">Alfredo Pasta — 16$</option>
+            <option value="juice" data-price="65">Watermelon Juice — 65$</option>
+          </select>
+        </div>
+        <div class="qty-column">
+          <label>Quantity</label>
+          <input type="number" name="qty[]" placeholder="Qty" min="1" value="1">
+        </div>
+        <button type="button" class="remove-btn">Remove</button>
+      `;
+      itemsBox.appendChild(row);
+      
+      row.querySelector('.remove-btn').addEventListener('click', () => {
+        row.remove();
+        updateTotal();
+      });
+      row.querySelector('select').addEventListener('change', updateTotal);
+      row.querySelector('input').addEventListener('input', updateTotal);
+      updateTotal();
+    }
+
+    document.querySelectorAll('.item-row').forEach(row => {
+      row.querySelector('.remove-btn').addEventListener('click', () => {
+        row.remove();
+        updateTotal();
+      });
+      row.querySelector('select').addEventListener('change', updateTotal);
+      row.querySelector('input').addEventListener('input', updateTotal);
+    });
+
+    addItemBtn.addEventListener('click', addRow);
+    updateTotal();
+    
+    document.getElementById('orderForm').addEventListener('submit', e => {
+      e.preventDefault();
+      // Order will be processed without showing alert
+      successBox.style.display = 'block';
+      form.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    function currentUnitPrice(){
+      const opt = itemSel.options[itemSel.selectedIndex];
+      return opt && opt.dataset.price ? Number(opt.dataset.price) : 0;
+    }
+
+    function currentItemLabel(){
+      const opt = itemSel.options[itemSel.selectedIndex];
+      return opt && opt.text ? opt.text.split('—')[0].trim() : '—';
+    }
+
+    itemSel.addEventListener('change', updateTotal);
+    qtyInp.addEventListener('input', updateTotal);
+    notesInput.addEventListener('input', updateNotesDisplay);
+
+    function validPhone(v){ return /^01\d{9}$/.test(String(v).trim()); }
+
+    function showError(name, show){
+      const el = document.querySelector(`.error[data-error-for="${name}"]`);
+      if(!el) return; el.style.display = show ? 'block' : 'none';
+    }
+
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+
+      let ok = true;
+      const required = ['name','phone','address','timeslot','item','qty'];
+      required.forEach((id)=>{
+        const field = document.getElementById(id);
+        const val = (field.value||'').trim();
+        let valid = !!val;
+        if(id==='phone') valid = validPhone(val);
+        if(id==='qty') valid = Number(val)>=1;
+        showError(id, !valid);
+        ok = ok && valid;
+      });
+
+      if(!ok){ updateTotal(); return; }
+
+      const data = Object.fromEntries(new FormData(form).entries());
+      console.log('Order data =>', data);
+
+      successBox.style.display = 'block';
+      form.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      setTimeout(()=>{
+        successBox.style.display = 'none';
+        updateTotal();
+      },0);
+    });
+
+    updateTotal();
+  </script>
+</body>
+</html>

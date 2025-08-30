@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Account</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .form-container {
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e0e0e0;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            color: #222;
+            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .login-link-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-link {
+            color: #666;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .login-link a {
+            color: #ff3838;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .login-link a:hover {
+            color: #e63030;
+            text-decoration: underline;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            flex: 1;
+            position: relative;
+        }
+
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-container {
+            position: relative;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f9f9f9;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #ff3838;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(255, 56, 56, 0.1);
+        }
+
+        .error-message {
+            color: #ff3838;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .input-container.error input {
+            border-color: #ff3838;
+            background: #fff5f5;
+        }
+
+        .input-container.success input {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+
+        .input-container.error .error-message {
+            display: block;
+        }
+
+        .password-strength {
+            margin-top: 8px;
+            height: 4px;
+            background: #e1e1e1;
+            border-radius: 2px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .password-strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .strength-weak { background: #ff3838; width: 25%; }
+        .strength-fair { background: #ff6b6b; width: 50%; }
+        .strength-good { background: #ffa500; width: 75%; }
+        .strength-strong { background: #28a745; width: 100%; }
+
+        .password-requirements {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+            display: none;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .requirement-icon {
+            margin-right: 8px;
+            font-size: 14px;
+            width: 16px;
+            display: inline-block;
+        }
+
+        .requirement.met {
+            color: #28a745;
+        }
+
+        .requirement.met .requirement-icon::before {
+            content: '✓';
+            color: #28a745;
+        }
+
+        .requirement:not(.met) {
+            color: #666;
+        }
+
+        .requirement:not(.met) .requirement-icon::before {
+            content: '✗';
+            color: #ff3838;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ff3838;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:hover {
+            background: #e63030;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 56, 56, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading-spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid transparent;
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Create Account</h1>
+        
+        <div class="login-link-container">
+            <div class="login-link">
+                Already have an account? <a href="loginf.html">Login</a>
+            </div>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            Account created successfully! Welcome <span id="welcomeName"></span>!
+        </div>
+
+        <form id="signupForm" novalidate>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <div class="input-container">
+                        <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <div class="input-container">
+                        <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="email">Email</label>
+                    <div class="input-container">
+                        <input type="email" id="email" name="email" placeholder="example@email.com" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="phone">Phone Number</label>
+                    <div class="input-container">
+                        <input type="tel" id="phone" name="phone" placeholder="01XXXXXXXXX" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="country">Country</label>
+                    <div class="input-container">
+                        <select id="country" name="country" required>
+                            <option value="">Choose country...</option>
+                            <option value="EG">Egypt</option>
+                            <option value="SA">Saudi Arabia</option>
+                            <option value="AE">UAE</option>
+                            <option value="JO">Jordan</option>
+                            <option value="LB">Lebanon</option>
+                            <option value="SY">Syria</option>
+                            <option value="MA">Morocco</option>
+                            <option value="TN">Tunisia</option>
+                        </select>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <div class="input-container">
+                        <input type="text" id="city" name="city" placeholder="Enter your city" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group full-width">
+                    <label for="birthDate">Date of Birth</label>
+                    <div class="input-container">
+                        <input type="date" id="birthDate" name="birthDate" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-container">
+                        <input type="password" id="password" name="password" required>
+                        <div class="error-message"></div>
+                    </div>
+                    <div class="password-strength" id="passwordStrength">
+                        <div class="password-strength-fill"></div>
+                    </div>
+                    <div class="password-requirements" id="passwordRequirements">
+                        <div class="requirement" data-requirement="length">
+                            <span class="requirement-icon"></span>
+                            <span>At least 8 characters</span>
+                        </div>
+                        <div class="requirement" data-requirement="uppercase">
+                            <span class="requirement-icon"></span>
+                            <span>At least one uppercase letter</span>
+                        </div>
+                        <div class="requirement" data-requirement="lowercase">
+                            <span class="requirement-icon"></span>
+                            <span>At least one lowercase letter</span>
+                        </div>
+                        <div class="requirement" data-requirement="number">
+                            <span class="requirement-icon"></span>
+                            <span>At least one number</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <div class="input-container">
+                        <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        <div class="error-message"></div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Sign Up
+                <span class="loading-spinner" id="loadingSpinner"></span>
+            </button>
+        </form>
+    </div>
+
+    <script>
+        class FormValidator {
+            constructor() {
+                this.form = document.getElementById('signupForm');
+                this.submitBtn = document.getElementById('submitBtn');
+                this.loadingSpinner = document.getElementById('loadingSpinner');
+                this.successMessage = document.getElementById('successMessage');
+                
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                // Real-time validation
+                this.form.querySelectorAll('input, select').forEach(field => {
+                    field.addEventListener('blur', () => this.validateField(field));
+                    field.addEventListener('input', () => {
+                        if (field.type === 'password' && field.id === 'password') {
+                            this.showPasswordRequirements();
+                            this.checkPasswordStrength(field.value);
+                        }
+                        if (field.closest('.input-container').classList.contains('error')) {
+                            this.validateField(field);
+                        }
+                    });
+                });
+
+                // Form submission
+                this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+                // Login link click handler
+                document.querySelector('.login-link a').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.location.href = 'loginf.html';
+                });
+            }
+
+            validateField(field) {
+                const container = field.closest('.input-container');
+                const errorMsg = container.querySelector('.error-message');
+                let isValid = true;
+                let message = '';
+
+                // Reset classes
+                container.classList.remove('error', 'success');
+
+                // Required field check
+                if (field.hasAttribute('required') && !field.value.trim()) {
+                    isValid = false;
+                    message = 'This field is required';
+                }
+
+                // Specific validations
+                switch (field.type) {
+                    case 'email':
+                        if (field.value && !this.isValidEmail(field.value)) {
+                            isValid = false;
+                            message = 'Please enter a valid email address';
+                        }
+                        break;
+                    case 'tel':
+                        if (field.value && !this.isValidPhone(field.value)) {
+                            isValid = false;
+                            message = 'Please enter a valid phone number (11 digits)';
+                        }
+                        break;
+                    case 'date':
+                        if (field.value && !this.isValidAge(field.value)) {
+                            isValid = false;
+                            message = 'Age must be at least 13 years';
+                        }
+                        break;
+                    case 'password':
+                        if (field.id === 'password' && field.value && !this.isValidPassword(field.value)) {
+                            isValid = false;
+                            message = 'Password does not meet requirements';
+                        } else if (field.id === 'confirmPassword') {
+                            const password = document.getElementById('password').value;
+                            if (field.value && password && field.value !== password) {
+                                isValid = false;
+                                message = 'Passwords do not match';
+                            } else if (field.value && !password) {
+                                isValid = false;
+                                message = 'Please enter password first';
+                            }
+                        }
+                        break;
+                }
+
+                // Name validation
+                if (field.id === 'firstName' || field.id === 'lastName') {
+                    if (field.value && field.value.length < 2) {
+                        isValid = false;
+                        message = 'Name must be at least 2 characters';
+                    }
+                }
+
+                // Apply validation result
+                if (isValid && field.value) {
+                    container.classList.add('success');
+                } else if (!isValid) {
+                    container.classList.add('error');
+                }
+
+                errorMsg.textContent = message;
+                return isValid;
+            }
+
+            isValidEmail(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            }
+
+            isValidPhone(phone) {
+                return /^01[0-9]{9}$/.test(phone.replace(/\s/g, ''));
+            }
+
+            isValidAge(birthDate) {
+                const today = new Date();
+                const birth = new Date(birthDate);
+                const age = today.getFullYear() - birth.getFullYear();
+                return age >= 13;
+            }
+
+            isValidPassword(password) {
+                const hasLength = password.length >= 8;
+                const hasUppercase = /[A-Z]/.test(password);
+                const hasLowercase = /[a-z]/.test(password);
+                const hasNumber = /\d/.test(password);
+                
+                return hasLength && hasUppercase && hasLowercase && hasNumber;
+            }
+
+            checkPasswordStrength(password) {
+                const strengthBar = document.querySelector('.password-strength-fill');
+                const strengthContainer = document.getElementById('passwordStrength');
+                
+                if (!password) {
+                    strengthContainer.style.display = 'none';
+                    document.getElementById('passwordRequirements').style.display = 'none';
+                    return;
+                }
+
+                strengthContainer.style.display = 'block';
+                
+                let score = 0;
+                if (password.length >= 8) score++;
+                if (/[a-z]/.test(password)) score++;
+                if (/[A-Z]/.test(password)) score++;
+                if (/\d/.test(password)) score++;
+
+                strengthBar.className = 'password-strength-fill';
+                switch (score) {
+                    case 1:
+                        strengthBar.classList.add('strength-weak');
+                        break;
+                    case 2:
+                        strengthBar.classList.add('strength-fair');
+                        break;
+                    case 3:
+                        strengthBar.classList.add('strength-good');
+                        break;
+                    case 4:
+                        strengthBar.classList.add('strength-strong');
+                        break;
+                }
+
+                this.updatePasswordRequirements(password);
+            }
+
+            updatePasswordRequirements(password) {
+                const requirements = {
+                    length: password.length >= 8,
+                    uppercase: /[A-Z]/.test(password),
+                    lowercase: /[a-z]/.test(password),
+                    number: /\d/.test(password)
+                };
+
+                Object.keys(requirements).forEach(req => {
+                    const element = document.querySelector(`[data-requirement="${req}"]`);
+                    
+                    if (element) {
+                        if (requirements[req]) {
+                            element.classList.add('met');
+                            element.classList.remove('not-met');
+                        } else {
+                            element.classList.remove('met');
+                            element.classList.add('not-met');
+                        }
+                    }
+                });
+            }
+
+            showPasswordRequirements() {
+                document.getElementById('passwordRequirements').style.display = 'block';
+            }
+
+            handleSubmit(e) {
+                e.preventDefault();
+                
+                // Validate all fields
+                const fields = this.form.querySelectorAll('input, select');
+                let isFormValid = true;
+
+                fields.forEach(field => {
+                    if (!this.validateField(field)) {
+                        isFormValid = false;
+                    }
+                });
+
+                if (!isFormValid) {
+                    const firstError = this.form.querySelector('.input-container.error input');
+                    if (firstError) {
+                        firstError.focus();
+                    }
+                    return;
+                }
+
+                // جيب البيانات من الفورم
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                const firstName = document.getElementById('firstName').value.trim();
+                const lastName = document.getElementById('lastName').value.trim();
+
+                console.log('=== Sign Up Debug ===');
+                console.log('Email to save:', email);
+                console.log('Password to save:', password);
+
+                // حفظ البيانات في localStorage
+                localStorage.setItem("userEmail", email);
+                localStorage.setItem("userPassword", password);
+                localStorage.setItem("userFirstName", firstName);
+                localStorage.setItem("userLastName", lastName);
+
+                // تأكد من الحفظ
+                console.log('Saved successfully:');
+                console.log('Email:', localStorage.getItem("userEmail"));
+                console.log('Password:', localStorage.getItem("userPassword"));
+
+                // Show loading state
+                this.submitBtn.disabled = true;
+                this.loadingSpinner.style.display = 'inline-block';
+                this.submitBtn.textContent = 'Creating Account...';
+
+                // Simulate API call then redirect
+                setTimeout(() => {
+                    // Show success message first
+                    document.getElementById('welcomeName').textContent = firstName;
+                    this.successMessage.style.display = 'block';
+                    this.successMessage.scrollIntoView({ behavior: 'smooth' });
+
+                    // Redirect to login after 2 seconds
+                    setTimeout(() => {
+                        alert('Account created successfully! Redirecting to login...');
+                        window.location.href = 'loginf.html';
+                    }, 2000);
+                }, 1500);
+            }
+        }
+
+        // Initialize the form validator when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new FormValidator();
+        });
+    </script>
+</body>
+</html>
